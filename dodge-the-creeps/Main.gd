@@ -3,17 +3,33 @@ extends Node
 export(PackedScene) var mob_scene
 var mob
 var mob_spawn_location
+var mob_linear_velocity
 var score
+var paused
+var running_state
 
 func _ready():
 	randomize()
+	$MobTimer.add_to_group("timers")
+	$ScoreTimer.add_to_group("timers")
 	#self.new_game()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+			
+#Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
+func _unhandled_input(event):
+	if(event is InputEventKey):
+		if(event.pressed and event.scancode == KEY_ESCAPE):
+			if(self.running_state):
+				self.toggle_pause_state()
+
+func toggle_pause_state():
+	$Player.set_locked_mode(not $Player.get_locked_mode())
+	self.pause_timers()
+
 func game_over():
+	self.running_state = false
 	$Music.stop()
 	$DeathSound.play()
 	$ScoreTimer.stop()
@@ -22,14 +38,14 @@ func game_over():
 	$HUD.show_game_over()
 	
 func new_game():
+	self.running_state = true
 	self.score = 0
 	$HUD.update_score(self.score)
 	$HUD.show_message("Get Ready!")
 	
 	$Player.spawn($StartPosition.position)
 	$StartTimer.start()
-	$MobTimer.start()
-	$ScoreTimer.start()
+	self.start_timers()
 	$Music.play()
 
 func _on_MobTimer_timeout():
@@ -64,3 +80,12 @@ func destroy_mobs_instances():
 func _on_ScoreTimer_timeout():
 	self.score += 1
 	$HUD.update_score(self.score)
+
+func start_timers():
+	for timer in self.get_tree().get_nodes_in_group("timers"):
+		timer.set_paused(false)
+		timer.start()
+
+func pause_timers():
+	for timer in self.get_tree().get_nodes_in_group("timers"):
+		timer.set_paused(not timer.is_paused())

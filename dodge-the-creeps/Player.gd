@@ -43,7 +43,9 @@ func _process(delta):
 		self.position += velocity * delta
 		self.position.x = clamp(self.position.x, 0, self.screen_size.x)
 		self.position.y = clamp(self.position.y, 0, self.screen_size.y)
-
+	else:
+		$AnimatedSprite.stop()
+		$AnimatedSprite.set_frame(0)
 
 func determine_animation(velocity: Vector2):
 	if(velocity.x != 0):
@@ -59,3 +61,10 @@ func _on_Player_body_entered(body):
 	self.hide()
 	self.emit_signal("hit")
 	$CollisionShape2D.set_deferred("disabled", true)
+
+
+func get_locked_mode():
+	return self.lockedMode
+
+func set_locked_mode(mode: bool):
+	self.lockedMode = mode
