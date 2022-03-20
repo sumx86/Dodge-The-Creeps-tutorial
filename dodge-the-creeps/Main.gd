@@ -26,7 +26,7 @@ func _unhandled_input(event):
 
 func toggle_pause_state():
 	$Player.set_locked_mode(not $Player.get_locked_mode())
-	self.pause_timers()
+	self.toggle_timers_pause_state()
 
 func game_over():
 	self.running_state = false
@@ -86,6 +86,6 @@ func start_timers():
 		timer.set_paused(false)
 		timer.start()
 
-func pause_timers():
+func toggle_timers_pause_state():
 	for timer in self.get_tree().get_nodes_in_group("timers"):
 		timer.set_paused(not timer.is_paused())
