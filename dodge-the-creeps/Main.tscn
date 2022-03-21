@@ -50,10 +50,11 @@ curve = SubResource( 1 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
-volume_db = -4.496
+volume_db = -12.362
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+volume_db = -6.0
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]

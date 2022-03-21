@@ -33,7 +33,7 @@ func game_over():
 	$Music.stop()
 	$DeathSound.play()
 	$ScoreTimer.stop()
-	$MobTimer.stop()
+	#$MobTimer.stop()
 	self.destroy_mobs_instances()
 	$HUD.show_game_over()
 	
@@ -43,10 +43,10 @@ func new_game():
 	$HUD.update_score(self.score)
 	$HUD.show_message("Get Ready!")
 	
-	$Player.spawn($StartPosition.position)
+	$Player.spawn($StartPosition.position, "down")
 	$StartTimer.start()
-	self.start_timers()
-	$Music.play()
+	#self.start_timers()
+	#$Music.play()
 
 func _on_MobTimer_timeout():
 	var mob = mob_scene.instance()
