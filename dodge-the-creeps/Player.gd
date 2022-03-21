@@ -46,26 +46,28 @@ func _process(delta):
 	self.velocity = Vector2.ZERO
 	if self.keys.size() > 0:
 		self.last_key = self.keys[-1]
-		if self.keys[-1] == KEY_DOWN:  self.velocity = Vector2(0,  1)
-		if self.keys[-1] == KEY_UP:    self.velocity = Vector2(0, -1)
-		if self.keys[-1] == KEY_LEFT:  self.velocity = Vector2(-1, 0)
-		if self.keys[-1] == KEY_RIGHT: self.velocity = Vector2(1,  0)
-	
-	print(self.keys)
+		if self.last_key == KEY_DOWN:  self.velocity = Vector2(0,  1)
+		if self.last_key == KEY_UP:    self.velocity = Vector2(0, -1)
+		if self.last_key == KEY_LEFT:  self.velocity = Vector2(-1, 0)
+		if self.last_key == KEY_RIGHT: self.velocity = Vector2(1,  0)
 	
 	if self.velocity != Vector2.ZERO:
 		self.process_player_movement()
-		self.determine_animation()
 		self.move_player(delta)
 	else:
 		$AnimatedSprite.set_frame(0)
 
 func process_player_movement():
-	var _velocity = Vector2.ZERO
-
-func determine_animation():
-	pass
-
+	match self.velocity:
+		Vector2(-1, 0), Vector2(1, 0):
+			$AnimatedSprite.animation = "walkx"
+			$AnimatedSprite.flip_h = self.velocity.x < 0
+		Vector2(0, 1):
+			$AnimatedSprite.animation = "down"
+		Vector2(0, -1):
+			$AnimatedSprite.animation = "up"
+	$AnimatedSprite.play()
+			
 func move_player(delta: float):
 	self.position += self.velocity * speed * delta
 	self.position.x = clamp(self.position.x, 0, self.screen_size.x - (self.frames.get_frame($AnimatedSprite.animation, 0).get_size().x / 2))
