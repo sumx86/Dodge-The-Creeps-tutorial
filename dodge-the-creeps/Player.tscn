@@ -16,12 +16,12 @@ animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 9 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "up",
-"speed": 5.0
+"speed": 4.0
 }, {
 "frames": [ ExtResource( 13 ), ExtResource( 11 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "down",
-"speed": 3.0
+"speed": 4.0
 }, {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 12 ) ],
 "loop": true,
